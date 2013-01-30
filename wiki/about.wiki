@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary About this project
 
 = About this project =
 
