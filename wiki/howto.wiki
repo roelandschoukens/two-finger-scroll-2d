@@ -18,4 +18,4 @@ To recognise 64-bit applications you need to run the 64-bit version. To recognis
 
 I tested my version on a Dell XPS laptop (Windows 7 64-bit) and on an old netbook (Which I believe is an OEM version of an MSI Wind U100, with 32-bit Windows XP). I don't know how well it works on other systems. If it doesn't work on your system, try one of the other projects on the [about] page.
 
-The settings are stored in the registry under HKCU/Software/two-finger-scroll-2d.
+The settings are stored in the registry under `HKCU/Software/two-finger-scroll-2d`.
