@@ -1,0 +1,13 @@
+#summary One-sentence summary of this page.
+
+= About this project =
+
+== Other versions ==
+
+This project is based on [https://code.google.com/p/two-finger-scroll/ two-finger-scroll] by Arkadiusz Wahlig.
+
+It has spawned a few other versions over the years: `MacHater`'s version on http://forum.tabletpcreview.com/hp-touchsmart-tm2-wacom/38405-twofingerscroll-v1-0-7-update-two-finger-scrolling-done-right-more.html, and an enhanced version for Windows 8 https://code.google.com/p/two-finger-scroll/issues/detail?id=19
+
+== JUCE ==
+
+JUCE is the GUI framework used, it provides a cross-platform GUI toolkit and lots of other useful classes. Learn more at http://rawmaterialsoftware.com/.
