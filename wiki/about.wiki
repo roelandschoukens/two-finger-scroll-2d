@@ -6,7 +6,7 @@
 
 This project is based on [https://code.google.com/p/two-finger-scroll/ two-finger-scroll] by Arkadiusz Wahlig.
 
-two-finger-scroll has spawned a few other versions as well: [`MacHater`'s version on tabletpcreview.com http://forum.tabletpcreview.com/hp-touchsmart-tm2-wacom/38405-twofingerscroll-v1-0-7-update-two-finger-scrolling-done-right-more.html] and a [version with 2D scrolling and Windows 8 support https://code.google.com/p/two-finger-scroll/issues/detail?id=19]
+two-finger-scroll has spawned a few other versions as well: [http://forum.tabletpcreview.com/hp-touchsmart-tm2-wacom/38405-twofingerscroll-v1-0-7-update-two-finger-scrolling-done-right-more.html `MacHater`'s version on tabletpcreview.com] and a version with  [https://code.google.com/p/two-finger-scroll/issues/detail?id=19 2D scrolling and Windows 8 support]
 
 == JUCE ==
 
