@@ -12,7 +12,7 @@
 
 ==Notes==
 
-Some very old laptops may require more up-to-date drivers, check the [http://www.synaptics.com/resources/drivers Synaptics web site].
+Old laptops may require more up-to-date drivers, check the [http://www.synaptics.com/resources/drivers Synaptics web site].
 
 To recognise 64-bit applications you need to run the 64-bit version. To recognise applications running with elevated rights you need to run this program as Administrator as well.
 
