@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="TOfbf8" name="Two-finger-scroll-2D" projectType="guiapp"
+              version="1.0.0" juceLinkage="amalg_multi" buildVST="1" buildRTAS="0"
+              buildAU="1" pluginName="Juce Project" pluginDesc="Juce Project"
+              pluginManufacturer="yourcompany" pluginManufacturerCode="Manu"
+              pluginCode="Plug" pluginChannelConfigs="{1, 1}, {2, 2}" pluginIsSynth="0"
+              pluginWantsMidiIn="0" pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0"
+              pluginTailLength="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="JuceProjectAU"
+              pluginAUViewClass="JuceProjectAU_V1" pluginRTASCategory="" bundleIdentifier="com.yourcompany.Twofingerscroll2D"
+              jucerVersion="3.0.0">
+  <EXPORTFORMATS>
+    <VS2010 targetFolder="Builds/VisualStudio2010" vstFolder="c:\SDKs\vstsdk2.4"
+            rtasFolder="c:\SDKs\PT_80_SDK" libraryType="1" juceFolder="D:\Roeland\source code\juce\modules"
+            bigIcon="CE9FwF" smallIcon="kDlhjj" extraCompilerFlags="-I../../syncom"
+            extraLinkerFlags="Psapi.lib">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="Two-finger-scroll-2D"
+                       winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="Two-finger-scroll-2D"
+                       winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"/>
+        <CONFIGURATION name="Debug 64" isDebug="1" optimisation="1" targetName="Two-finger-scroll-2D"
+                       winWarningLevel="4" generateManifest="1" winArchitecture="x64"/>
+        <CONFIGURATION name="Release 64" isDebug="0" optimisation="2" targetName="Two-finger-scroll-2D"
+                       winWarningLevel="4" generateManifest="1" winArchitecture="x64"/>
+      </CONFIGURATIONS>
+    </VS2010>
+  </EXPORTFORMATS>
+  <MAINGROUP id="NsjOWX" name="Two-finger-scroll-2D">
+    <FILE id="CE9FwF" name="two-finger-scroll-2D-l.png" compile="0" resource="1"
+          file="two-finger-scroll-2D-l.png"/>
+    <FILE id="kDlhjj" name="two-finger-scroll-2D-s.png" compile="0" resource="1"
+          file="two-finger-scroll-2D-s.png"/>
+    <FILE id="YKZZFz" name="two-finger-scroll-2D-s-off.png" compile="0"
+          resource="1" file="two-finger-scroll-2D-s-off.png"/>
+    <GROUP id="hXOEES" name="syncom">
+      <FILE id="X41lc" name="SynCom.h" compile="0" resource="0" file="syncom\SynCom.h"/>
+      <FILE id="ZTWiF7" name="SynComDefs.h" compile="0" resource="0" file="syncom\SynComDefs.h"/>
+      <FILE id="UW6wRW" name="SynCtrl.h" compile="0" resource="0" file="syncom\SynCtrl.h"/>
+      <FILE id="Gmrqx8" name="SynError.h" compile="0" resource="0" file="syncom\SynError.h"/>
+      <FILE id="UYySJY" name="SynKit.h" compile="0" resource="0" file="syncom\SynKit.h"/>
+      <FILE id="HY3mr6" name="SynWraps.h" compile="0" resource="0" file="syncom\SynWraps.h"/>
+    </GROUP>
+    <GROUP id="ZgrCRt" name="Source">
+      <FILE id="iBWRGV" name="ApplicationsettingsForm.cpp" compile="1" resource="0"
+            file="Source\ApplicationsettingsForm.cpp"/>
+      <FILE id="omxW8w" name="ApplicationsettingsForm.h" compile="0" resource="0"
+            file="Source\ApplicationsettingsForm.h"/>
+      <FILE id="HSSoq2" name="constants.h" compile="0" resource="0" file="Source\constants.h"/>
+      <FILE id="FBS9u9" name="GlobalScrollSettingsForm.cpp" compile="1" resource="0"
+            file="Source/GlobalScrollSettingsForm.cpp"/>
+      <FILE id="Y6as4g" name="GlobalScrollSettingsForm.h" compile="0" resource="0"
+            file="Source/GlobalScrollSettingsForm.h"/>
+      <FILE id="rtCfcU" name="GlobalTapSettingsForm.cpp" compile="1" resource="0"
+            file="Source/GlobalTapSettingsForm.cpp"/>
+      <FILE id="qa0vNX" name="GlobalTapSettingsForm.h" compile="0" resource="0"
+            file="Source/GlobalTapSettingsForm.h"/>
+      <FILE id="S9G2Rm" name="Main.cpp" compile="1" resource="0" file="Source\Main.cpp"/>
+      <FILE id="YcynXs" name="TouchDriver.cpp" compile="1" resource="0" file="Source/TouchDriver.cpp"/>
+      <FILE id="BzBBSM" name="TouchDriver.h" compile="0" resource="0" file="Source/TouchDriver.h"/>
+      <FILE id="d4zyE0" name="TouchSettings.h" compile="0" resource="0" file="Source\TouchSettings.h"/>
+      <FILE id="RrxTIx" name="TouchSettings.cpp" compile="1" resource="0"
+            file="Source/TouchSettings.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS/>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_audio" showAllCode="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+</JUCERPROJECT>
