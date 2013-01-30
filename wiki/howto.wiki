@@ -6,8 +6,8 @@
 ==Getting started==
 
   * In the synaptics control panel, *disable* any two-finger and three-finger gestures (pinch-zoom, two-finger scrolling, Application gestures).
-  * Run the executable. To run on startup you can add a shortcut to your Start menu » Startup folder, or add it to the registry. (add it to `HKLM/Software/Microsoft/Windows/CurrentVersion/Run` to run as Administrator—see later). Adding `/silent` as command-line argument suppresses the notification.
-  * An notification icon should appear, and you should be able to scroll with two fingers.
+  * Run the executable. A notification icon should appear, and you should be able to scroll with two fingers.
+  * To run on startup you can add a shortcut to your Start menu » Startup folder, or add it to the registry. (add it to `HKLM/Software/Microsoft/Windows/CurrentVersion/Run` to run as Administrator—see later). Add `/silent` to the command line argument to suppress the about dialog on startup.
   * to override settings for individual applications (many applications still react poorly to smooth scrolling), do a palm press gesture with that application in the foreground. If your touchpad doesn't recognise palm presses, assign "Show active app settings" to one of the other gestures.
 
 ==Notes==
