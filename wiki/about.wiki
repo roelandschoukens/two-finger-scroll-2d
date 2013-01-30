@@ -4,4 +4,4 @@ This project is based on [https://code.google.com/p/two-finger-scroll/ two-finge
 
 two-finger-scroll has spawned a few other versions as well: [http://forum.tabletpcreview.com/hp-touchsmart-tm2-wacom/38405-twofingerscroll-v1-0-7-update-two-finger-scrolling-done-right-more.html `MacHater`'s version on tabletpcreview.com] and a version with  [https://code.google.com/p/two-finger-scroll/issues/detail?id=19#c13 2D scrolling and Windows 8 support]
 
-To build this project yourself you need JUCE, get it from http://rawmaterialsoftware.com/. Use the IntroJucer to open two-finger-scroll-2D.jucer file and add the JUCE source code to the project. Then build it with the VS2010 project under Builds/
+To build this project yourself you need JUCE, get it from http://rawmaterialsoftware.com/. Use the `IntroJucer` to open two-finger-scroll-2D.jucer file and add the JUCE source code to the project. Then build it with the VS2010 project under Builds/
