@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2015
+Project("{878D2575-6BC8-E89D-EE66-60F551EC9611}") = "Two-finger-scroll-2D", "Two-finger-scroll-2D.vcxproj", "{C71AB028-33AD-0C95-03F8-E4A23D634730}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C71AB028-33AD-0C95-03F8-E4A23D634730}.Debug|x64.ActiveCfg = Debug|x64
+		{C71AB028-33AD-0C95-03F8-E4A23D634730}.Debug|x64.Build.0 = Debug|x64
+		{C71AB028-33AD-0C95-03F8-E4A23D634730}.Release|x64.ActiveCfg = Release|x64
+		{C71AB028-33AD-0C95-03F8-E4A23D634730}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
