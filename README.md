@@ -25,15 +25,15 @@ Using the app
 Notes
 -----
 
-Old laptops may require more up-to-date drivers, check the [Synaptics web site](http://www.synaptics.com/resources/drivers).
+ * Old laptops may require more up-to-date drivers, check the [Synaptics web site](http://www.synaptics.com/resources/drivers).
 
-To recognise 64-bit applications you need to run the 64-bit version. To recognise applications running with elevated rights you need to run this program as Administrator as well (But then you need to trust me, of course).
+ * To recognise 64-bit applications you need to run the 64-bit version.
 
-To work with applications running as *Administrator*, you have to run two-finger-scroll-2d as *Administrator* as well. But beware, this puts a lot of trust in both my good will and my programming skills.
+ * To work with applications running as *Administrator*, you have to run two-finger-scroll-2d as *Administrator* as well. But beware, this puts a lot of trust in both my good will and my programming skills.
 
-I tested my version on a Dell XPS laptop (Windows 7 64-bit, and Windows 10) and on an old netbook (Which I believe is an OEM version of an MSI Wind U100, with 32-bit Windows XP). I don't know how well it works on other systems. If it doesn't work on your system, try one of the other projects mentioned above.
+ * I tested my version on a Dell XPS laptop (Windows 7 64-bit, and Windows 10) and on an old netbook (Which I believe is an OEM version of an MSI Wind U100, with 32-bit Windows XP). I don't know how well it works on other systems. If it doesn't work on your system, try one of the other projects mentioned above.
 
-The settings are stored in the registry under `HKCU/Software/two-finger-scroll-2d`.
+ * The settings are stored in the registry under `HKCU/Software/two-finger-scroll-2d`.
 
 Building
 --------
