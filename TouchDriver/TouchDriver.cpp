@@ -669,21 +669,24 @@ bool TouchDriver::DoScroll(long dx, long dy)
 		&  (scrollClamp == 2 || DoScrollAxis(dy, AXIS_Y, dt));
 }
 
-// constants used for momentum. M_LAMBDA_MS * M_SCALE = 1000
 #define M_LAMBDA_MS 100
-#define M_SCALE 10
 
-// momentum is expressed in units per second (where 1 wheel click is 120 units a.k.a. WHEEL_DELTA.
-// time measurements come in milliseconds, hence the number 1000.
-// This filter greatly improves the continuity between 
-
-// the formula is a simple low pass filter:
+// momentum is expressed in units per second (where 1 wheel click is 120
+// units a.k.a. WHEEL_DELTA.
+//
+// Usually there's some of noise in the last few positions before lifting
+// your finger, and as we all know, differentiation will amplify that noise.
+// As a result, if we just use the last measured speed for the "momentum",
+// it will appear to be rather erratic. So we use a low-pass filter to
+// smooth this out
+//
+// A simple low-pass filter gets the job done nicely:
+//
 //  v = 1000*d/dt
 //  a = dt / lambda
 //  M = M*(1 - a) + v*a
 //    = M*(1 - dt / lambda) + 1000*d/lambda
 //    = M*(lambda - dt)/lambda + d*(1000/lambda)
-
 bool TouchDriver::DoScrollAxis(long dRaw, Axis axis, long dt)
 {
 	long d;
@@ -706,9 +709,11 @@ bool TouchDriver::DoScrollAxis(long dRaw, Axis axis, long dt)
 	else d = dRaw;
 
 	totalScroll[axis] += d;
+	// apply low-pass filter for measuring the momentum
 	if (settings.scrollMomentum) {
 		dt = jmin(dt, 1000L);
-		scrollMomentum[axis] = scrollMomentum[axis] * (M_LAMBDA_MS - dt) / M_LAMBDA_MS + d * M_SCALE;
+		scrollMomentum[axis] = scrollMomentum[axis] * (M_LAMBDA_MS - dt) / M_LAMBDA_MS + 
+		                       d                    * (1000/M_LAMBDA_MS);
 	}
 
 	fireScrollEvent(d, axis);
