@@ -79,6 +79,7 @@ public:
 	ScrollMode scrollMode;
 	XScrollMode xScrollMode;
 	float scrollSpeed[2];
+	bool discreteZoom;
 
 	// internal state
 	long nof;

@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.1
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -17,8 +17,7 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_A86435CADD63662E__
-#define __JUCE_HEADER_A86435CADD63662E__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -40,7 +39,8 @@ namespace TouchPad
 */
 class ApplicationsettingsForm  : public Component,
                                  public ComboBoxListener,
-                                 public SliderListener
+                                 public SliderListener,
+                                 public ButtonListener
 {
 public:
     //==============================================================================
@@ -55,6 +55,7 @@ public:
     void resized() override;
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
     void sliderValueChanged (Slider* sliderThatWasMoved) override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
 
 
@@ -64,16 +65,17 @@ private:
     //[/UserVariables]
 
     //==============================================================================
+    ScopedPointer<GroupComponent> scrollGrp;
     ScopedPointer<Label> label5;
     ScopedPointer<Label> label2;
     ScopedPointer<Label> label3;
-    ScopedPointer<GroupComponent> scrollGrp;
     ScopedPointer<ComboBox> scrollModeBox;
     ScopedPointer<Slider> xSpeedSlider;
     ScopedPointer<Slider> ySpeedSlider;
     ScopedPointer<ComboBox> appCombo;
     ScopedPointer<ComboBox> xscrollMethod;
     ScopedPointer<Label> label4;
+    ScopedPointer<ToggleButton> discreteZoom;
 
 
     //==============================================================================
@@ -82,5 +84,3 @@ private:
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
-#endif   // __JUCE_HEADER_A86435CADD63662E__

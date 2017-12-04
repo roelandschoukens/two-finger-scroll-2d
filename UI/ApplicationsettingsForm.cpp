@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.1
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -34,9 +34,12 @@ ApplicationsettingsForm::ApplicationsettingsForm (const String &appName)
     //[/Constructor_pre]
 
     setName ("applicationsettings");
+    addAndMakeVisible (scrollGrp = new GroupComponent ("scroll group",
+                                                       TRANS("Scrolling")));
+
     addAndMakeVisible (label5 = new Label ("new label",
                                            TRANS("Mode")));
-    label5->setFont (Font (15.00f, Font::plain));
+    label5->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label5->setJustificationType (Justification::centredLeft);
     label5->setEditable (false, false, false);
     label5->setColour (TextEditor::textColourId, Colours::black);
@@ -44,7 +47,7 @@ ApplicationsettingsForm::ApplicationsettingsForm (const String &appName)
 
     addAndMakeVisible (label2 = new Label ("new label",
                                            TRANS("X speed")));
-    label2->setFont (Font (15.00f, Font::plain));
+    label2->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label2->setJustificationType (Justification::centredLeft);
     label2->setEditable (false, false, false);
     label2->setColour (TextEditor::textColourId, Colours::black);
@@ -52,14 +55,11 @@ ApplicationsettingsForm::ApplicationsettingsForm (const String &appName)
 
     addAndMakeVisible (label3 = new Label ("new label",
                                            TRANS("Y speed")));
-    label3->setFont (Font (15.00f, Font::plain));
+    label3->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label3->setJustificationType (Justification::centredLeft);
     label3->setEditable (false, false, false);
     label3->setColour (TextEditor::textColourId, Colours::black);
     label3->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible (scrollGrp = new GroupComponent ("scroll group",
-                                                       TRANS("Scrolling")));
 
     addAndMakeVisible (scrollModeBox = new ComboBox ("new combo box"));
     scrollModeBox->setEditableText (false);
@@ -101,17 +101,22 @@ ApplicationsettingsForm::ApplicationsettingsForm (const String &appName)
 
     addAndMakeVisible (label4 = new Label ("new label",
                                            TRANS("X compatibility mode")));
-    label4->setFont (Font (15.00f, Font::plain));
+    label4->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label4->setJustificationType (Justification::centredLeft);
     label4->setEditable (false, false, false);
     label4->setColour (TextEditor::textColourId, Colours::black);
     label4->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (discreteZoom = new ToggleButton ("discreteZoom"));
+    discreteZoom->setTooltip (TRANS("Use discrete scrolling when CTRL is pressed"));
+    discreteZoom->setButtonText (TRANS("Discrete zoom workaround"));
+    discreteZoom->addListener (this);
+
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (400, 208);
+    setSize (400, 240);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -143,16 +148,17 @@ ApplicationsettingsForm::~ApplicationsettingsForm()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
+    scrollGrp = nullptr;
     label5 = nullptr;
     label2 = nullptr;
     label3 = nullptr;
-    scrollGrp = nullptr;
     scrollModeBox = nullptr;
     xSpeedSlider = nullptr;
     ySpeedSlider = nullptr;
     appCombo = nullptr;
     xscrollMethod = nullptr;
     label4 = nullptr;
+    discreteZoom = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -165,8 +171,6 @@ void ApplicationsettingsForm::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colours::white);
-
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
 }
@@ -176,16 +180,17 @@ void ApplicationsettingsForm::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
+    scrollGrp->setBounds (8, 40, getWidth() - 16, getHeight() - 48);
     label5->setBounds (16, 64, 80, 23);
     label2->setBounds (16, 96, 88, 23);
     label3->setBounds (16, 128, 88, 23);
-    scrollGrp->setBounds (8, 40, getWidth() - 16, getHeight() - 48);
     scrollModeBox->setBounds (136, 64, getWidth() - 164, 24);
     xSpeedSlider->setBounds (136, 96, getWidth() - 160, 24);
     ySpeedSlider->setBounds (136, 128, getWidth() - 160, 24);
     appCombo->setBounds (8, 8, getWidth() - 16, 24);
     xscrollMethod->setBounds (136, 160, getWidth() - 164, 24);
     label4->setBounds (16, 160, 120, 23);
+    discreteZoom->setBounds (16, 160 + 32, getWidth() - 40, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -196,9 +201,9 @@ void ApplicationsettingsForm::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 	TouchPad::AppTouchSettings &settings = TouchPad::gEditSettings;
     //[/UsercomboBoxChanged_Pre]
 
-	if (comboBoxThatHasChanged == scrollModeBox)
-	{
-		//[UserComboBoxCode_scrollModeBox] -- add your combo box handling code here..
+    if (comboBoxThatHasChanged == scrollModeBox)
+    {
+        //[UserComboBoxCode_scrollModeBox] -- add your combo box handling code here..
 		TouchPad::ScrollMode modes[] = {
 			TouchPad::S_Inherit,
 			TouchPad::S_Discrete,
@@ -206,7 +211,7 @@ void ApplicationsettingsForm::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 		};
 		int ch = jlimit(1, 3, scrollModeBox->getSelectedId());
 		settings.scrollMode = modes[ch - 1];
-		//[/UserComboBoxCode_scrollModeBox]
+        //[/UserComboBoxCode_scrollModeBox]
     }
     else if (comboBoxThatHasChanged == appCombo)
     {
@@ -224,7 +229,7 @@ void ApplicationsettingsForm::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 		};
 		int ch = jlimit(1, 2, scrollModeBox->getSelectedId());
 		settings.xScrollMode = modes[ch - 1];
-		//[/UserComboBoxCode_xscrollMethod]
+        //[/UserComboBoxCode_xscrollMethod]
     }
 
     //[UsercomboBoxChanged_Post]
@@ -254,6 +259,23 @@ void ApplicationsettingsForm::sliderValueChanged (Slider* sliderThatWasMoved)
     //[/UsersliderValueChanged_Post]
 }
 
+void ApplicationsettingsForm::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+	TouchPad::AppTouchSettings &settings = TouchPad::gEditSettings;
+	//[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == discreteZoom)
+    {
+        //[UserButtonCode_discreteZoom] -- add your button handler code here..
+		settings.discreteZoom = discreteZoom->getToggleState();
+        //[/UserButtonCode_discreteZoom]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
+}
+
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
@@ -279,6 +301,7 @@ void ApplicationsettingsForm::loadSettings()
 		}
 		xSpeedSlider->setValue(settings.scrollSpeed[TouchPad::AXIS_X]);
 		ySpeedSlider->setValue(settings.scrollSpeed[TouchPad::AXIS_Y]);
+		discreteZoom->setToggleState(settings.discreteZoom, dontSendNotification);
 	}
 	else
 	{
@@ -288,6 +311,7 @@ void ApplicationsettingsForm::loadSettings()
 	xscrollMethod->setEnabled(enabled);
 	xSpeedSlider->setEnabled(enabled);
 	ySpeedSlider->setEnabled(enabled);
+	discreteZoom->setEnabled(enabled);
 }
 //[/MiscUserCode]
 
@@ -305,25 +329,25 @@ BEGIN_JUCER_METADATA
                  componentName="applicationsettings" parentClasses="public Component"
                  constructorParams="const String &amp;appName" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="400" initialHeight="208">
-  <BACKGROUND backgroundColour="ffffffff"/>
+                 fixedSize="1" initialWidth="400" initialHeight="240">
+  <BACKGROUND backgroundColour="ffffff"/>
+  <GROUPCOMPONENT name="scroll group" id="71a5842afcf439c5" memberName="scrollGrp"
+                  virtualName="" explicitFocusOrder="0" pos="8 40 16M 48M" title="Scrolling"/>
   <LABEL name="new label" id="f25b8dd62abd2f29" memberName="label5" virtualName=""
          explicitFocusOrder="0" pos="16 64 80 23" edTextCol="ff000000"
          edBkgCol="0" labelText="Mode" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="23af637525ce5249" memberName="label2" virtualName=""
          explicitFocusOrder="0" pos="16 96 88 23" edTextCol="ff000000"
          edBkgCol="0" labelText="X speed" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="2892c2b1cf67ec1" memberName="label3" virtualName=""
          explicitFocusOrder="0" pos="16 128 88 23" edTextCol="ff000000"
          edBkgCol="0" labelText="Y speed" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
-  <GROUPCOMPONENT name="scroll group" id="71a5842afcf439c5" memberName="scrollGrp"
-                  virtualName="" explicitFocusOrder="0" pos="8 40 16M 48M" title="Scrolling"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <COMBOBOX name="new combo box" id="82c87582d5d5220a" memberName="scrollModeBox"
             virtualName="" explicitFocusOrder="0" pos="136 64 164M 24" editable="0"
             layout="33" items="Use global setting&#10;Discrete (old school)&#10;Continuous"
@@ -350,7 +374,11 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="16 160 120 23" edTextCol="ff000000"
          edBkgCol="0" labelText="X compatibility mode" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15" bold="0" italic="0" justification="33"/>
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
+  <TOGGLEBUTTON name="discreteZoom" id="11e6e24b5e8a5f17" memberName="discreteZoom"
+                virtualName="" explicitFocusOrder="0" pos="16 32 40M 24" posRelativeY="a8257059a652b48c"
+                tooltip="Use discrete scrolling when CTRL is pressed" buttonText="Discrete zoom workaround"
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

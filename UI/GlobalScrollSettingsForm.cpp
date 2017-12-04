@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.1
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label = new Label ("new label",
                                           TRANS("X speed")));
-    label->setFont (Font (15.00f, Font::plain));
+    label->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label->setJustificationType (Justification::centredLeft);
     label->setEditable (false, false, false);
     label->setColour (TextEditor::textColourId, Colours::black);
@@ -50,7 +50,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label2 = new Label ("new label",
                                            TRANS("Y speed")));
-    label2->setFont (Font (15.00f, Font::plain));
+    label2->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label2->setJustificationType (Justification::centredLeft);
     label2->setEditable (false, false, false);
     label2->setColour (TextEditor::textColourId, Colours::black);
@@ -58,7 +58,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label7 = new Label ("new label",
                                            TRANS("Momentum")));
-    label7->setFont (Font (15.00f, Font::plain));
+    label7->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label7->setJustificationType (Justification::centredLeft);
     label7->setEditable (false, false, false);
     label7->setColour (TextEditor::textColourId, Colours::black);
@@ -66,7 +66,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label5 = new Label ("new label",
                                            TRANS("Mode")));
-    label5->setFont (Font (15.00f, Font::plain));
+    label5->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label5->setJustificationType (Justification::centredLeft);
     label5->setEditable (false, false, false);
     label5->setColour (TextEditor::textColourId, Colours::black);
@@ -74,7 +74,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label3 = new Label ("new label",
                                            TRANS("X snap")));
-    label3->setFont (Font (15.00f, Font::plain));
+    label3->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label3->setJustificationType (Justification::centredLeft);
     label3->setEditable (false, false, false);
     label3->setColour (TextEditor::textColourId, Colours::black);
@@ -82,7 +82,7 @@ GlobalScrollSettingsForm::GlobalScrollSettingsForm (TouchPad::TouchSettings &set
 
     addAndMakeVisible (label4 = new Label ("new label",
                                            TRANS("Y snap")));
-    label4->setFont (Font (15.00f, Font::plain));
+    label4->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     label4->setJustificationType (Justification::centredLeft);
     label4->setEditable (false, false, false);
     label4->setColour (TextEditor::textColourId, Colours::black);
@@ -195,8 +195,6 @@ void GlobalScrollSettingsForm::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-
-    g.fillAll (Colours::white);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -333,7 +331,7 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="settings(settings_)" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330" fixedSize="1" initialWidth="400"
                  initialHeight="328">
-  <BACKGROUND backgroundColour="ffffffff"/>
+  <BACKGROUND backgroundColour="ffffff"/>
   <GROUPCOMPONENT name="scroll group" id="bf2ba31e96207190" memberName="scrollGrp2"
                   virtualName="" explicitFocusOrder="0" pos="8 168 16M 152" title="Options"/>
   <GROUPCOMPONENT name="scroll group" id="71a5842afcf439c5" memberName="scrollGrp"
@@ -342,32 +340,32 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="16 32 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="X speed" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="759f5be774bc0c2f" memberName="label2" virtualName=""
          explicitFocusOrder="0" pos="16 64 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Y speed" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="79e9b7d8b3f79199" memberName="label7" virtualName=""
          explicitFocusOrder="0" pos="16 128 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Momentum" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="f25b8dd62abd2f29" memberName="label5" virtualName=""
          explicitFocusOrder="0" pos="16 192 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Mode" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="c10533febcce0c43" memberName="label3" virtualName=""
          explicitFocusOrder="0" pos="16 224 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="X snap" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="e1687949cbbfd89e" memberName="label4" virtualName=""
          explicitFocusOrder="0" pos="16 256 80 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Y snap" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="33"/>
+         kerning="0" bold="0" italic="0" justification="33"/>
   <SLIDER name="new slider" id="211875d6c0a2b7f9" memberName="xSpeedSlider"
           virtualName="" explicitFocusOrder="0" pos="96 32 120M 24" min="0"
           max="100" int="0" style="LinearHorizontal" textBoxPos="NoTextBox"

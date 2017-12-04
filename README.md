@@ -25,23 +25,17 @@ Using the app
 Notes
 -----
 
- * Old laptops may require more up-to-date drivers, check the [Synaptics web site](http://www.synaptics.com/resources/drivers).
+Old laptops may require more up-to-date drivers, check the [Synaptics web site](http://www.synaptics.com/resources/drivers).
 
- * To recognise 64-bit applications you need to run the 64-bit version.
+To recognise 64-bit applications you need to run the 64-bit version. To recognise applications running with elevated rights you need to run this program as Administrator as well (But then you need to trust me, of course).
 
- * To work with applications running as *Administrator*, you have to run two-finger-scroll-2d as *Administrator* as well. But beware, this puts a lot of trust in both my good will and my programming skills.
+To work with applications running as *Administrator*, you have to run two-finger-scroll-2d as *Administrator* as well. But beware, this puts a lot of trust in both my good will and my programming skills.
 
- * I tested my version on a Dell XPS laptop (Windows 7 64-bit, and Windows 10) and on an old netbook (Which I believe is an OEM version of an MSI Wind U100, with 32-bit Windows XP). I don't know how well it works on other systems. If it doesn't work on your system, try one of the other projects mentioned above.
+I tested my version on a Dell XPS laptop (Windows 7 64-bit) and on an old netbook (Which I believe is an OEM version of an MSI Wind U100, with 32-bit Windows XP). I don't know how well it works on other systems. If it doesn't work on your system, try one of the other projects mentioned above.
 
- * The settings are stored in the registry under `HKCU/Software/two-finger-scroll-2d`.
+The settings are stored in the registry under `HKCU/Software/two-finger-scroll-2d`.
 
 Building
 --------
 
-This project depends on the [JUCE library](http://www.juce.com/).
-
-To build this project:
-
- * Download JUCE from [juce.com](http://www.juce.com/) or [GitHub](https://github.com/julianstorer/JUCE). When using the latter you'll have to build the `ProJucer` with one of the Visual Studio projects in `extras/Projucer/Builds`.
-
- * Start `ProJucer` and open `two-finger-scroll-2D.jucer`. Go to the *Config* tab and click *Save Project and Open in IDE…*. This should set up the project and open it in Visual Studio.
+To build this project you have to get a copy of the [JUCE library](http://www.juce.com/). Use `ProJucer` to open `two-finger-scroll-2D.jucer` and generate the appropriate build files.

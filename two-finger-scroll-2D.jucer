@@ -8,33 +8,10 @@
               pluginWantsMidiIn="0" pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0"
               pluginTailLength="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="JuceProjectAU"
               pluginAUViewClass="JuceProjectAU_V1" pluginRTASCategory="" bundleIdentifier="com.yourcompany.Twofingerscroll2D"
-              jucerVersion="4.2.1" includeBinaryInAppConfig="1" defines="JUCE_DONT_INCREASE_TIMER_FREQUENCY=1">
+              jucerVersion="5.1.1" includeBinaryInAppConfig="1" defines=""
+              displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
+              cppLanguageStandard="11">
   <EXPORTFORMATS>
-    <VS2012 targetFolder="Builds/VisualStudio2012" extraCompilerFlags="-I../../syncom&#10;-I../../TouchDriver&#10;-I../../UI"
-            extraLinkerFlags="Psapi.lib" smallIcon="kDlhjj" bigIcon="CE9FwF"
-            vstFolder="">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="Two-finger-scroll-2D"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="Two-finger-scroll-2D"
-                       defines="NDEBUG=1"/>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="Two-finger-scroll-2D"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="2" targetName="Two-finger-scroll-2D"
-                       defines="NDEBUG=1"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_gui_audio" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_events" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_core" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="C:/Users/Roeland/source code/juce/modules"/>
-      </MODULEPATHS>
-    </VS2012>
     <VS2015 targetFolder="Builds/VisualStudio2015" vstFolder="" extraCompilerFlags="-I../../syncom&#10;-I../../TouchDriver&#10;-I../../UI"
             extraLinkerFlags="Psapi.lib&#10;" smallIcon="kDlhjj" bigIcon="CE9FwF">
       <CONFIGURATIONS>
@@ -46,12 +23,12 @@
                        characterSet="Unicode" binaryPath="bin" defines="NDEBUG=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_events" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="C:/Users/Roeland/source code/juce/modules"/>
-        <MODULEPATH id="juce_core" path="C:/Users/Roeland/source code/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="..\..\..\lib\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="..\..\..\lib\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="..\..\..\lib\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="..\..\..\lib\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="..\..\..\lib\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="..\..\..\lib\JUCE\modules"/>
       </MODULEPATHS>
     </VS2015>
   </EXPORTFORMATS>
@@ -95,7 +72,7 @@
       <FILE id="d6N4a2" name="Main.cpp" compile="1" resource="0" file="UI/Main.cpp"/>
     </GROUP>
   </MAINGROUP>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_ALLOW_STATIC_NULL_VARIABLES="disabled"/>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>

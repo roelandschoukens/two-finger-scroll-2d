@@ -67,6 +67,7 @@ struct AppTouchSettings
 	ScrollMode scrollMode;
 	XScrollMode xScrollMode;
 	int scrollSpeed[2]; // -100 -- 100 (correction factor)
+	bool discreteZoom;
 };
 
 void saveSettings(TouchSettings &settings);

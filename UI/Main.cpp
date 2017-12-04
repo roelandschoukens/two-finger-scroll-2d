@@ -142,7 +142,7 @@ class TwoFingerScroll2DApplication  : public JUCEApplication,
 		TwoFingerScroll2DApplication *app;
 
 
-	} *icon;
+	};
 
 public:
 
@@ -162,6 +162,7 @@ public:
     {
 		Logger::setCurrentLogger(this);
 
+		ttw = new TooltipWindow();
 		icon = new OurIconComponent(this);
 		Image img = ImageCache::getFromMemory(BinaryData::twofingerscroll2Ds_png, BinaryData::twofingerscroll2Ds_pngSize);
 		icon->setIconImage(img);
@@ -192,8 +193,8 @@ public:
 		AlertWindow::showMessageBox(AlertWindow::NoIcon, 
 				APP_NAME,
 				CharPointer_UTF8(
-				"\xc2\xa9 2013 by Roeland Schoukens\n\n"
-				"Original two-finger-scroll by Arkadiusz Wahlig."));
+				u8"© 2017 by Roeland Schoukens\n\n"
+				u8"Original two-finger-scroll by Arkadiusz Wahlig."));
 	}
 
 
@@ -207,7 +208,7 @@ public:
 		}
 		else
 		{
-			delete driver;
+			driver = nullptr;
 			driver = new TouchPad::TouchDriver();
 			Image img = ImageCache::getFromMemory(BinaryData::twofingerscroll2Ds_png, BinaryData::twofingerscroll2Ds_pngSize);
 			icon->setIconImage(img);
@@ -227,7 +228,7 @@ public:
 			int h = jmax(form1.getHeight(), form2.getHeight());
 			h = jmax(h, form3.getHeight());
 			tabs.setSize(form1.getWidth(), h + tabs.getTabBarDepth());
-			Colour bgcolor = tabs.findColour(AlertWindow::backgroundColourId);
+			Colour bgcolor = tabs.findColour(DocumentWindow::backgroundColourId);
 			tabs.addTab(L"Scrolling", bgcolor, &form1, false);
 			tabs.addTab(L"Actions", bgcolor, &form2, false);
 			tabs.addTab(L"Applications", bgcolor, &form3, false);
@@ -251,9 +252,6 @@ public:
     void shutdown()
     {
 		Logger::setCurrentLogger(nullptr);
-		delete driver;
-        delete icon;
-		delete standbyDetector;
     }
 
 
@@ -280,7 +278,6 @@ public:
 
     void anotherInstanceStarted (const String& commandLine)
     {
-		driver->attachDeviceEvent();
 		bool silent = (commandLine == String("/silent"));
 		if (!silent) {
 			showAbout();
@@ -347,15 +344,17 @@ public:
 		v.setSize(500, 400);
 		dlo.content.setNonOwned(&v);
 		v.setViewPosition(0, h);
-		dlo.dialogTitle = CharPointer_UTF8("Debug log \xe2\x80\x94 " APP_NAME);
+		dlo.dialogTitle = CharPointer_UTF8(u8"Debug log — " APP_NAME);
 		dlo.runModal();
 		c.deleteAllChildren();
 	}
 #endif
 
 private:
-	TouchPad::TouchDriver *driver;
-	StandbyDetector *standbyDetector;
+	ScopedPointer<TouchPad::TouchDriver> driver;
+	ScopedPointer<StandbyDetector> standbyDetector;
+	ScopedPointer<OurIconComponent> icon;
+	ScopedPointer<TooltipWindow> ttw;
 	unsigned int reattachCounter;
 	bool settingsOpen;
 	StringArray log;

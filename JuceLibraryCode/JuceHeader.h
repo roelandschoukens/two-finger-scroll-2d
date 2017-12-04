@@ -10,8 +10,7 @@
 
 */
 
-#ifndef __APPHEADERFILE_TOFBF8__
-#define __APPHEADERFILE_TOFBF8__
+#pragma once
 
 #include "AppConfig.h"
 
@@ -38,5 +37,3 @@ namespace ProjectInfo
     const int          versionNumber  = 0x10100;
 }
 #endif
-
-#endif   // __APPHEADERFILE_TOFBF8__

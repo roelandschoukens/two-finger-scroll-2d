@@ -187,6 +187,7 @@ void saveAppSettings(const String &appName, AppTouchSettings &settings)
 		setRegValue(ourKey, "x-scroll-mode", settings.xScrollMode, gDefaultAppSettings.xScrollMode);
 		setRegValue(ourKey, "scroll-speed-x", settings.scrollSpeed[AXIS_X], gDefaultAppSettings.scrollSpeed[AXIS_X]);
 		setRegValue(ourKey, "scroll-speed-y", settings.scrollSpeed[AXIS_Y], gDefaultAppSettings.scrollSpeed[AXIS_Y]);
+		setRegValue(ourKey, "discrete-zoom", (DWORD) settings.discreteZoom, (DWORD) gDefaultAppSettings.discreteZoom);
 	}
 }
 
@@ -202,7 +203,8 @@ void loadAppSettings(const String &appName, AppTouchSettings &settings)
 		settings.scrollMode = (ScrollMode) getRegValue(ourKey, "scroll-mode", gDefaultAppSettings.scrollMode);
 		settings.xScrollMode = (XScrollMode) getRegValue(ourKey, "x-scroll-mode", gDefaultAppSettings.xScrollMode);
 		settings.scrollSpeed[AXIS_X] = (ScrollMode) getRegValue(ourKey, "scroll-speed-x", gDefaultAppSettings.scrollSpeed[AXIS_X]);
-		settings.scrollSpeed[AXIS_Y] = (ScrollMode) getRegValue(ourKey, "scroll-speed-y", gDefaultAppSettings.scrollSpeed[AXIS_Y]);
+		settings.scrollSpeed[AXIS_Y] = (ScrollMode)getRegValue(ourKey, "scroll-speed-y", gDefaultAppSettings.scrollSpeed[AXIS_Y]);
+		settings.discreteZoom = (bool) getRegValue(ourKey, "discrete-zoom", (DWORD) gDefaultAppSettings.discreteZoom);
 	}
 }
 

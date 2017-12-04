@@ -1,26 +1,23 @@
 /*
   ==============================================================================
 
-  This is an automatically generated file created by the Jucer!
-
-  Creation date:  21 Apr 2012 2:02:07pm
+  This is an automatically generated GUI class created by the Projucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.12
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
-  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-6 by Raw Material Software ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_GLOBALTAPSETTINGSFORM_GLOBALTAPSETTINGSFORM_7D94B33E__
-#define __JUCER_HEADER_GLOBALTAPSETTINGSFORM_GLOBALTAPSETTINGSFORM_7D94B33E__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -52,14 +49,11 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     //[/UserMethods]
 
-    void paint (Graphics& g);
-    void resized();
-    void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+    void paint (Graphics& g) override;
+    void resized() override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
 
 
-
-    //==============================================================================
-    juce_UseDebuggingNewOperator
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
@@ -67,33 +61,31 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    GroupComponent* groupComponent2;
-    GroupComponent* groupComponent;
-    Label* label6;
-    Label* label8;
-    Label* label9;
-    Label* label10;
-    Label* label11;
-    Label* label12;
-    Label* label13;
-    Label* label14;
-    Label* label15;
-    ComboBox* tap2Box;
-    ComboBox* tap3Box;
-    ComboBox* tap11Box;
-    ComboBox* tap21Box;
-    ComboBox* palmBox;
-    ComboBox* swipeLeftBox;
-    ComboBox* swipeRightBox;
-    ComboBox* swipeUpBox;
-    ComboBox* swipeDownBox;
+    ScopedPointer<GroupComponent> groupComponent2;
+    ScopedPointer<GroupComponent> groupComponent;
+    ScopedPointer<Label> label6;
+    ScopedPointer<Label> label8;
+    ScopedPointer<Label> label9;
+    ScopedPointer<Label> label10;
+    ScopedPointer<Label> label11;
+    ScopedPointer<Label> label12;
+    ScopedPointer<Label> label13;
+    ScopedPointer<Label> label14;
+    ScopedPointer<Label> label15;
+    ScopedPointer<ComboBox> tap2Box;
+    ScopedPointer<ComboBox> tap3Box;
+    ScopedPointer<ComboBox> tap11Box;
+    ScopedPointer<ComboBox> tap21Box;
+    ScopedPointer<ComboBox> palmBox;
+    ScopedPointer<ComboBox> swipeLeftBox;
+    ScopedPointer<ComboBox> swipeRightBox;
+    ScopedPointer<ComboBox> swipeUpBox;
+    ScopedPointer<ComboBox> swipeDownBox;
 
 
     //==============================================================================
-    // (prevent copy constructor and operator= being generated..)
-    GlobalTapSettingsForm (const GlobalTapSettingsForm&);
-    const GlobalTapSettingsForm& operator= (const GlobalTapSettingsForm&);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GlobalTapSettingsForm)
 };
 
-
-#endif   // __JUCER_HEADER_GLOBALTAPSETTINGSFORM_GLOBALTAPSETTINGSFORM_7D94B33E__
+//[EndFile] You can add extra defines here...
+//[/EndFile]
