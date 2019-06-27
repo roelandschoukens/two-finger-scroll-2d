@@ -42,7 +42,7 @@ static DWORD getRegValue(const String &name, const String &valueName, DWORD defa
 
 static bool getRegBool(const String &name, const String &valueName, bool defaultValue)
 {
-	return getRegValue(HKCU + name, valueName, defaultValue) != 0;
+	return getRegValue(name, valueName, defaultValue) != 0;
 }
 
 
@@ -176,7 +176,7 @@ void fireAppSettingsMessage(const String &appName)
 
 void saveAppSettings(const String &appName, AppTouchSettings &settings)
 {
-	String ourKey = HKCU + String(appKey) + "\\" + appName;
+	String ourKey = String(appKey) + "\\" + appName;
 	if (settings == gDefaultAppSettings)
 	{
 		WindowsRegistry::deleteKey(ourKey);
@@ -199,7 +199,7 @@ void loadAppSettings(const String &appName, AppTouchSettings &settings)
 		// settings.
 		settings = gEditSettings;
 	} else {
-		String ourKey = HKCU + String(appKey) + "\\" + appName;
+		String ourKey = appKey + "\\" + appName;
 		settings.scrollMode = (ScrollMode) getRegValue(ourKey, "scroll-mode", gDefaultAppSettings.scrollMode);
 		settings.xScrollMode = (XScrollMode) getRegValue(ourKey, "x-scroll-mode", gDefaultAppSettings.xScrollMode);
 		settings.scrollSpeed[AXIS_X] = (ScrollMode) getRegValue(ourKey, "scroll-speed-x", gDefaultAppSettings.scrollSpeed[AXIS_X]);
