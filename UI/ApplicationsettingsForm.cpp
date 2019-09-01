@@ -139,6 +139,9 @@ ApplicationsettingsForm::ApplicationsettingsForm (const String &appName)
 		appCombo->setSelectedItemIndex(apps.size());
 	}
 
+	xSpeedSlider->setValue(50, juce::dontSendNotification);
+	ySpeedSlider->setValue(50, juce::dontSendNotification);
+
 	loadSettings();
     //[/Constructor]
 }

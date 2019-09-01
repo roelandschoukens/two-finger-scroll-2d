@@ -54,7 +54,7 @@ typedef VOID (CALLBACK TimerProcT)(
 
 TouchDriver *g_instance;
 
-VOID CALLBACK timerStub(
+VOID CALLBACK TouchDriver::timerStub(
 	_In_ HWND     ,
 	_In_ UINT     ,
 	_In_ UINT_PTR ,
@@ -71,7 +71,7 @@ void debugLog(char *msg) { OutputDebugStringA(msg); }
 #endif
 
 
-// function only there in newer Windows versions. Other than this, this class
+// function only there in newer Windows versions (version 8 and later). Other than this, this class
 // will work all the way back to Windows XP.
 typedef LONG (WINAPI * GetApplicationUserModelIdPtr) (
 	_In_    HANDLE hProcess,
@@ -216,16 +216,21 @@ bool TouchDriver::CheckDriver()
 
 
 TouchDriver::TouchDriver() :
-	nof(0),
-	working(false),
-	IsDeviceTapLocked(false)
+nof(0),
+working(false),
+IsDeviceTapLocked(false),
+logger(nullptr)
 {
 	g_instance = this;
+}
 
+
+bool TouchDriver::start()
+{
 	HMODULE hKernelDll = LoadLibrary(L"Kernel32.dll");
 	if (hKernelDll)
 	{
-		GetApplicationUserModelIdf = 
+		GetApplicationUserModelIdf =
 			(GetApplicationUserModelIdPtr)GetProcAddress(hKernelDll, "GetApplicationUserModelId");
 		FreeLibrary(hKernelDll);
 	}
@@ -235,28 +240,45 @@ TouchDriver::TouchDriver() :
 	applyAppSettings();
 	ResetScroll();
 
-    long lHandle = -1;
+	long lHandle = -1;
 
 	HRESULT hRes = CoInitialize(0);
-    if (hRes && hRes != S_FALSE)
-		return; // Error other than already initialized on thread.
+	if (hRes && hRes != S_FALSE) {
+		log("Com not initialized");
+		return false; // Error other than already initialized on thread.
+	}
 
-    if (CoCreateInstance(_uuidof(SynAPI), 0, 
-		 CLSCTX_INPROC_SERVER, _uuidof(ISynAPI), (void **) &m_pAPI) ||
-      CoCreateInstance(_uuidof(SynPacket), 0, 
-	     CLSCTX_INPROC_SERVER, _uuidof(ISynPacket), (void **) &synPacket) ||
-      m_pAPI->Initialize() ||
-      m_pAPI->FindDevice(SE_ConnectionAny, SE_DeviceTouchPad, &lHandle) || 
-	  m_pAPI->CreateDevice(lHandle, &synTouchPad))
-    {
-      return; // Couldn't initialize properly.
-    }
+	if (CoCreateInstance(_uuidof(SynAPI), 0,
+		CLSCTX_INPROC_SERVER, _uuidof(ISynAPI), (void **)&m_pAPI) ||
+		CoCreateInstance(_uuidof(SynPacket), 0,
+			CLSCTX_INPROC_SERVER, _uuidof(ISynPacket), (void **)&synPacket))
+	{
+		log("COM API not found");
+		// this happens (I guess) if we start before the Synaptics driver
+		// is up and running.
+		return false;
+	}
+	if (m_pAPI->Initialize()) {
+		log("API was not initialized");
+		return false;
+	}
+	if (m_pAPI->FindDevice(SE_ConnectionAny, SE_DeviceTouchPad, &lHandle))
+	{
+		log("Device not found");
+		return false;
+	}
+    if (m_pAPI->CreateDevice(lHandle, &synTouchPad))
+	{
+		log("Device not found");
+		return false;
+	}
 
 	synTouchPad->GetProperty(SP_ZMaximum, &zPalmMin);
 	zPalmMin = zPalmMin * 2 / 3;
 
 	attachDeviceEvent();
 	working = true;
+	return true;
 }
 
 
@@ -273,6 +295,12 @@ void TouchDriver::shutDown()
 		m_pAPI->Release();
 		working = false;
 	}
+}
+
+
+void TouchDriver::log(const char *msg)
+{
+	if (logger) { logger->appendLog(msg);  }
 }
 
 
@@ -437,8 +465,6 @@ long STDMETHODCALLTYPE TouchDriver::OnSynDevicePacket(long )
 				else if (tapLastNof == 3)
 					ok = DoTap(settings.tapTwoOne);
 			}
-			if (ok)
-				SetCursorPos(tapTouchPos.x, tapTouchPos.y);
 
 			// prevent tap trigger until initiated again
 			tapStartTime -= 175;
@@ -516,7 +542,6 @@ long STDMETHODCALLTYPE TouchDriver::OnSynDevicePacket(long )
 
 
 	// handle scrolling
-
 	if (!swiping && settings.scrollLinear) {
 		if (fstate & SF_FingerPresent) {
 			if (scrollTouchTime == 0) {
@@ -548,6 +573,8 @@ long STDMETHODCALLTYPE TouchDriver::OnSynDevicePacket(long )
 						// stop momentum if there is manual scroll movement
 						KillTimer(NULL, timerId);
 
+						// reset mouse position to where it was when the first finger landed
+						// that avoids moving the cursor around while scrolling quickly
 						if (tstamp - scrollTouchTime < 1000) {
 							SetCursorPos(scrollTouchPos.x,
 								scrollTouchPos.y);
@@ -681,9 +708,9 @@ bool TouchDriver::DoScroll(long dx, long dy)
 
 // momentum is expressed in units per second (where 1 wheel click is 120 units a.k.a. WHEEL_DELTA.
 // time measurements come in milliseconds, hence the number 1000.
-// This filter greatly improves the continuity between 
+// This filter greatly improves the continuity between the actual drag and the momentum
 
-// the formula is a simple low pass filter:
+// this is a simple low pass filter but it gets the job done.
 //  v = 1000*d/dt
 //  a = dt / lambda
 //  M = M*(1 - a) + v*a

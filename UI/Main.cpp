@@ -48,7 +48,7 @@ private:
     ATOM atom;
     HWND hwnd;
 
-    LPCTSTR getClassNameFromAtom() noexcept  { return (LPCTSTR) MAKELONG (atom, 0); }
+    LPCTSTR getClassNameFromAtom() noexcept  { return (LPCTSTR) (DWORD_PTR) MAKELONG (atom, 0); }
 };
 
 class StandbyDetector
@@ -83,9 +83,9 @@ private:
 
 
 class TwoFingerScroll2DApplication  : public JUCEApplication, 
-									 public MouseListener,
-									 public Timer,
-									 public Logger
+									  public MouseListener,
+									  public Timer,
+								      public TouchPad::Logger
 {
 
 	class OurIconComponent : public SystemTrayIconComponent
@@ -106,9 +106,12 @@ class TwoFingerScroll2DApplication  : public JUCEApplication,
 				menu.addItem(1, "Settings");
 				menu.addItem(2, "About");
 				menu.addItem(3, "Enabled", true, app->driver->isActive());
-#ifdef DO_DEBUG_LOG
-				menu.addItem(8, "Show debug log");
-#endif
+				if (!app->isLogEmpty())
+				{
+					menu.addSeparator();
+					menu.addItem(8, "Show log messages");
+					menu.addSeparator();
+				}
 				menu.addItem(9, "Exit");
 				int i = menu.show();
 				switch (i)
@@ -122,11 +125,9 @@ class TwoFingerScroll2DApplication  : public JUCEApplication,
 				case 3:
 					app->toggleActive();
 					break;
-#ifdef DO_DEBUG_LOG
 				case 8:
 					app->displayLog();
 					break;
-#endif
 				case 9:
 					app->quit();
 					break;
@@ -160,25 +161,34 @@ public:
     
 	void initialise (const String& commandLine)
     {
-		Logger::setCurrentLogger(this);
+		LookAndFeel &laf = LookAndFeel::getDefaultLookAndFeel();
+		Colour textColour = laf.findColour(AlertWindow::textColourId);
+		laf.setColour(TabbedButtonBar::frontTextColourId, textColour);
+		laf.setColour(TabbedButtonBar::frontOutlineColourId, textColour);
+		laf.setColour(TabbedButtonBar::tabTextColourId, textColour.withAlpha(.9f));
+		laf.setColour(TabbedButtonBar::tabOutlineColourId, textColour.withAlpha(.9f));
 
 		ttw = new TooltipWindow();
 		icon = new OurIconComponent(this);
-		Image img = ImageCache::getFromMemory(BinaryData::twofingerscroll2Ds_png, BinaryData::twofingerscroll2Ds_pngSize);
-		icon->setIconImage(img);
 		icon->setIconTooltip(getApplicationName());
-
-		driver = new TouchPad::TouchDriver();
-		standbyDetector = new StandbyDetector(this);
-		
 		icon->addMouseListener(this, false);
 
-		LookAndFeel &laf = LookAndFeel::getDefaultLookAndFeel();
-		Colour textColour = laf.findColour(AlertWindow::textColourId);
-		laf.setColour(TabbedButtonBar::frontTextColourId,    textColour);
-		laf.setColour(TabbedButtonBar::frontOutlineColourId, textColour);
-		laf.setColour(TabbedButtonBar::tabTextColourId,      textColour.withAlpha(.9f));
-		laf.setColour(TabbedButtonBar::tabOutlineColourId,   textColour.withAlpha(.9f));
+		driver = new TouchPad::TouchDriver();
+		driver->setCurrentLogger(this);
+		bool ok = driver->start();
+		standbyDetector = new StandbyDetector(this);
+		if (!ok) {
+			Timer::callAfterDelay(10000, [this] {
+				// retry once if the initial start fails
+				if (JUCEApplicationBase::getInstance() && !driver->isActive()) {
+					toggleActive();
+				}
+			});
+		}
+
+		updateIcon();
+
+		
 		
 		bool silent = (commandLine == String("/silent"));
 		if (!silent)
@@ -190,10 +200,10 @@ public:
 
 	void showAbout()
 	{
-		AlertWindow::showMessageBox(AlertWindow::NoIcon, 
+		AlertWindow::showMessageBoxAsync(AlertWindow::NoIcon, 
 				APP_NAME,
 				CharPointer_UTF8(
-				u8"© 2017 by Roeland Schoukens\n\n"
+				u8"© 2019 by Roeland Schoukens\n\n"
 				u8"Original two-finger-scroll by Arkadiusz Wahlig."));
 	}
 
@@ -203,16 +213,24 @@ public:
 		if (driver->isActive())
 		{
 			driver->shutDown();
-			Image img = ImageCache::getFromMemory(BinaryData::twofingerscroll2Dsoff_png, BinaryData::twofingerscroll2Dsoff_pngSize);
-			icon->setIconImage(img);
 		}
 		else
 		{
 			driver = nullptr;
 			driver = new TouchPad::TouchDriver();
-			Image img = ImageCache::getFromMemory(BinaryData::twofingerscroll2Ds_png, BinaryData::twofingerscroll2Ds_pngSize);
-			icon->setIconImage(img);
+			driver->setCurrentLogger(this);
+			driver->start();
 		}
+		updateIcon();
+	}
+
+
+	void updateIcon()
+	{
+		Image img = driver->isActive()
+			? ImageCache::getFromMemory(BinaryData::twofingerscroll2Ds_png, BinaryData::twofingerscroll2Ds_pngSize)
+			: ImageCache::getFromMemory(BinaryData::twofingerscroll2Dsoff_png, BinaryData::twofingerscroll2Dsoff_pngSize);
+		icon->setIconImage(img);
 	}
 
 
@@ -251,7 +269,6 @@ public:
 
     void shutdown()
     {
-		Logger::setCurrentLogger(nullptr);
     }
 
 
@@ -305,22 +322,29 @@ public:
 	}
 
 
-	virtual void logMessage(const String &message)
+	// -- Touchpad::Logger --
+
+	virtual void appendLog(const char* msg)
 	{
-		log.set(logIndex, message);
+		log.set(logIndex, String::fromUTF8(msg));
 		++logIndex;
 		if (logIndex == MAX_LOG) logIndex = 0;
 	}
 
 
-#ifdef DO_DEBUG_LOG
+	bool isLogEmpty()
+	{
+		return log.isEmpty();
+	}
+
+
 	void displayLog()
 	{
 		Component c;
 		int w = 300;
 		int h = 0;
 		for (int i = logIndex; i < log.size(); ++i) {
-			Label *l = new Label(String::empty, log[i]);
+			Label *l = new Label("", log[i]);
 			int lh = (int) ceil(l->getFont().getHeight());
 			int lw = l->getFont().getStringWidth(log[i]);
 			w = jmax(w, lw);
@@ -329,7 +353,7 @@ public:
 			c.addAndMakeVisible(l);
 		}
 		for (int i = 0; i < logIndex; ++i) {
-			Label *l = new Label(String::empty, log[i]);
+			Label *l = new Label("", log[i]);
 			int lh = (int) ceil(l->getFont().getHeight());
 			int lw = l->getFont().getStringWidth(log[i]);
 			w = jmax(w, lw);
@@ -343,12 +367,12 @@ public:
 		v.setViewedComponent(&c, false);
 		v.setSize(500, 400);
 		dlo.content.setNonOwned(&v);
+		dlo.dialogBackgroundColour = c.findColour(DocumentWindow::backgroundColourId);
 		v.setViewPosition(0, h);
 		dlo.dialogTitle = CharPointer_UTF8(u8"Debug log — " APP_NAME);
 		dlo.runModal();
 		c.deleteAllChildren();
 	}
-#endif
 
 private:
 	ScopedPointer<TouchPad::TouchDriver> driver;
@@ -363,9 +387,11 @@ private:
 };
 
 
+// implementations for Touchpad
+
 void TouchPad::ShowSettingsMessage::messageCallback()
 {
-	TwoFingerScroll2DApplication *app = (TwoFingerScroll2DApplication*) JUCEApplication::getInstance();
+	TwoFingerScroll2DApplication *app = (TwoFingerScroll2DApplication*)JUCEApplication::getInstance();
 	app->showSettings(appName);
 }
 

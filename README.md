@@ -11,7 +11,7 @@ Features
 --------
 
  * Smooth scrolling in two dimensions with momentum;
- * Emulating mouse wheel clicks for applications which react badly to smooth scrolling;
+ * Emulate mouse wheel clicks for applications which react badly to smooth scrolling;
  * 3-finger gestures to emulate the 'back' and 'forward' mouse buttons.
 
 Using the app

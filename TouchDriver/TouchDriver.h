@@ -24,12 +24,15 @@ inline void dprintf(TCHAR *pattern, ...)
 namespace TouchPad
 {
 
+	class Logger { public: virtual void appendLog(const char* msg) =0; };
+
 class TouchDriver : public _ISynDeviceEvents
 {
 public:
 	TouchDriver();
 	~TouchDriver() { shutDown(); }
 
+	bool start();
 	void shutDown();
 
 	TouchSettings &getSettings() { return settings; }
@@ -38,6 +41,16 @@ public:
 	void UpdateForegroundWindowBaseModuleName();
 	bool CheckDriver();
 
+	// reattach events (required after power state changes).
+	void attachDeviceEvent();
+
+	bool isActive() { return working; }
+
+	void setCurrentLogger(Logger *l) { logger = l; }
+
+	void log(const char *msg);
+
+private:
 	ISynAPI *m_pAPI;
 	ISynDevice *synTouchPad;
 	ISynPacket *synPacket;
@@ -45,16 +58,17 @@ public:
 	// timer
 	UINT_PTR    timerId;
 
-	bool isActive() { return working; }
-
-	// reattach events (required after power state changes).
-	void attachDeviceEvent();
-
 	void scanKeyStates();
 	bool rescanKeyStates();
 
 	// timer callback
 	void onTimerEvent();
+
+	static VOID CALLBACK TouchDriver::timerStub(
+		_In_ HWND,
+		_In_ UINT,
+		_In_ UINT_PTR,
+		_In_ DWORD);
 
 	// the packet callback
 	virtual long STDMETHODCALLTYPE OnSynDevicePacket(long );
@@ -75,6 +89,7 @@ public:
 	void applyAppSettings();
 
 	TouchSettings settings;
+	Logger *logger;
 	AppTouchSettings appSettings;
 	ScrollMode scrollMode;
 	XScrollMode xScrollMode;
